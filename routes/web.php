@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Models\ChildClass;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $child = new ChildClass('John', 25);
+    dd($child->getName()); // Attempting to get the name property of ParentClass
 });
 
 Route::get('/dashboard', function () {
