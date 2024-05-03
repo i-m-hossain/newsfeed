@@ -3,7 +3,6 @@
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
-use App\Models\ChildClass;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $child = new ChildClass('John', 25);
-    dd($child->getName()); // Attempting to get the name property of ParentClass
+    return view('auth.register');
 });
 
 Route::get('/dashboard', function () {
@@ -49,4 +47,4 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::delete('/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
     });
 });
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
