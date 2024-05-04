@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentCreated;
 use App\Http\Requests\CommentRequest;
 use App\Models\Chirp;
 use App\Models\Comment;
@@ -30,7 +31,8 @@ class CommentController extends Controller
             'chirp_id' => $chirp->id,
             'user_id' => request()->user()->id
         ];
-        Comment::create($comment);
+        $commentCreated = Comment::create($comment);
+        CommentCreated::dispatch($commentCreated);
         return redirect(route('chirps.index'));
     }
 

@@ -20,7 +20,7 @@ class CommentFactory extends Factory
     {
         $chirp = Chirp::inRandomOrder()->first();
         $chirpId = $chirp ? $chirp->id : null;
-        $userId = $chirp ? $chirp->user_id : null;
+        $userId = User::inRandomOrder()->first();
 
         return [
             'body' => fake()->sentence(),

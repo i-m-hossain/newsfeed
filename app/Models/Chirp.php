@@ -12,9 +12,9 @@ class Chirp extends Model
     protected $fillable=[
         "message"
     ];
-    // protected $dispatchesEvents = [
-    //     'created' => ChirpCreated::class,
-    // ];
+    protected $dispatchesEvents = [
+        'created' => ChirpCreated::class,
+    ];
     public function user(){
         return $this->belongsTo(User::class);
     }

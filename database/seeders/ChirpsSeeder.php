@@ -12,6 +12,6 @@ class ChirpsSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Chirp::factory(10)->create();
+        \App\Models\Chirp::factory(20)->create();
     }
 }
