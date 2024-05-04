@@ -14,7 +14,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Support\Str;
 
 
-class NewComment extends Notification implements ShouldQueue
+class NewCommentSlackNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -23,7 +23,6 @@ class NewComment extends Notification implements ShouldQueue
      */
     public function __construct(public Comment $comment)
     {
-        //
     }
 
     /**
@@ -33,21 +32,22 @@ class NewComment extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['slack'];
     }
     /**
-     * Get the mail representation of the notification.
+     * Get the Slack representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return SlackMessage
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toSlack(object $notifiable): SlackMessage
     {
-        return (new MailMessage)
-            ->action('Notification Action', url('/'))
-            ->subject("New Comment from {$this->comment->user->name}")
-            ->greeting("New Comment from {$this->comment->user->name}")
-            ->line(Str::limit($this->comment->body, 50))
-            ->action('Go to Newsfeed', url('/'));
+        return (new SlackMessage)
+            ->success("A comment has been created!")
+            ->from('NewsFeed')
+            ->to('#laravel-notifications') // channel name
+            ->content(Str::limit($this->comment->body)); // message
     }
-
     /**
      * Get the array representation of the notification.
      *

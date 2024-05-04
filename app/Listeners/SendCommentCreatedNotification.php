@@ -6,6 +6,7 @@ use App\Events\CommentCreated;
 use App\Models\Comment;
 use App\Models\User;
 use App\Notifications\NewComment;
+use App\Notifications\NewCommentSlackNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Illuminate\Queue\InteractsWithQueue;
@@ -45,11 +46,12 @@ class SendCommentCreatedNotification implements ShouldQueue
         /**
          * using Notification facade to send mail
          * */
+
+        //!Todo:-- sending email (need to upgrade the plan, limit exceeded or change the account)
         // Notification::send($users, new NewComment($event->comment));
+
+        //sending to slack channel
         Notification::route('slack', config('notification.SLACK_BOT_USER_DEFAULT_CHANNEL'))
-        ->notify(new NewComment($event->comment));
-        // code to implement slack channel
-
-
+        ->notify(new NewCommentSlackNotification($event->comment));
     }
 }
