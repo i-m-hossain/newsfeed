@@ -10,6 +10,7 @@ use App\Notifications\NewCommentSlackNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class SendCommentCreatedNotification implements ShouldQueue
@@ -48,10 +49,22 @@ class SendCommentCreatedNotification implements ShouldQueue
          * */
 
         //!Todo:-- sending email (need to upgrade the plan, limit exceeded or change the account)
-        // Notification::send($users, new NewComment($event->comment));
+        try {
+            //code...
+            Notification::send($users, new NewComment($event->comment));
+        } catch (\Exception $ex) {
+            Log::error("Mail error:". $ex->getMessage());
+        }
+
 
         //sending to slack channel
-        Notification::route('slack', config('notification.SLACK_BOT_USER_DEFAULT_CHANNEL'))
-        ->notify(new NewCommentSlackNotification($event->comment));
+        try {
+            //code...
+            Notification::route('slack', config('notification.SLACK_BOT_USER_DEFAULT_CHANNEL'))
+            ->notify(new NewCommentSlackNotification($event->comment));
+        } catch (\Exception $ex) {
+            Log::error('Slack error: ' . $ex->getMessage());
+        }
+
     }
 }
