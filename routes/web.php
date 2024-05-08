@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::get('/{comment}/edit', [CommentController::class ,'edit'])->name('comment.edit');
         Route::patch('/{comment}', [CommentController::class, 'update'])->name('comment.update');
         Route::delete('/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+    });
+    Route::prefix('test')->group(function(){
+        Route::get('/', [TestController::class, 'logData'])->name('logData');
     });
 });
 require __DIR__ . '/auth.php';
