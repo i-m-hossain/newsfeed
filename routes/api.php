@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\v1\order\OrderController;
+use App\Jobs\ProcessLoop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::prefix('v1')->group(function () {
     Route::get('/order', [OrderController::class, 'getAllOrder'])->name('getAllOrder');
+    Route::get('/test/1', function () {
+        dispatch(new ProcessLoop(100000));
+        return "hello from test 122";
+    });
+    Route::get("/test/2", function () {
+        return "hello world from test 2";
+    });
 });
